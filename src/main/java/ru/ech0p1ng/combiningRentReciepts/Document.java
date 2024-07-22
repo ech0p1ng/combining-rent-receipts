@@ -2,7 +2,6 @@ package ru.ech0p1ng.combiningRentReciepts;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
 
 import java.awt.image.BufferedImage;
 
