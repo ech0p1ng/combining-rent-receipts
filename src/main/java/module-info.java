@@ -2,6 +2,8 @@ module ru.ech0p1ng.combiningrentreceipts.combiningrentreceiptsjavafx {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.web;
+    requires java.desktop;
+    requires lombok;
 
 //    requires org.controlsfx.controls;
 //    requires com.dlsc.formsfx;
