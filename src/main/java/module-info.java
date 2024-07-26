@@ -1,15 +1,10 @@
-module ru.ech0p1ng.combiningrentreceipts.combiningrentreceiptsjavafx {
+module ru.ech0p1ng.combiningrentreceipts {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.web;
     requires java.desktop;
-    requires lombok;
-
-//    requires org.controlsfx.controls;
-//    requires com.dlsc.formsfx;
-//    requires org.kordamp.bootstrapfx.core;
-//    requires eu.hansolo.tilesfx;
-
+    requires static lombok;
+    requires static org.apache.pdfbox;
     opens ru.ech0p1ng.combiningrentreceipts.combiningrentreceiptsjavafx to javafx.fxml;
     exports ru.ech0p1ng.combiningrentreceipts.combiningrentreceiptsjavafx;
 }

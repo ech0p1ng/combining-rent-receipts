@@ -1,4 +1,4 @@
-package ru.ech0p1ng.combiningRentReciepts;
+package ru.ech0p1ng.combiningrentreceipts;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

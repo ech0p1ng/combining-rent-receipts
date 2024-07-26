@@ -15,6 +15,8 @@
         <java.version>19</java.version>
         <javafx.version>19.0.2</javafx.version>
         <javafx.sdk.path>C:\Program Files\Java\javafx-sdk-21.0.1\lib</javafx.sdk.path>
+        <lombok.version>1.18.34</lombok.version>
+        <org.apache.pdfbox.version>3.0.2</org.apache.pdfbox.version>
     </properties>
 
     <dependencies>
@@ -86,56 +88,32 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.34</version>
+            <version>${lombok.version}</version>
             <scope>provided</scope>
         </dependency>
-
+        <!-- https://mvnrepository.com/artifact/org.apache.pdfbox/pdfbox -->
+        <dependency>
+            <groupId>org.apache.pdfbox</groupId>
+            <artifactId>pdfbox</artifactId>
+            <version>${org.apache.pdfbox.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
         <plugins>
-            <!-- Maven Shade Plugin for creating a fat JAR -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.4</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <filters>
-                                <filter>
-                                    <artifact>*:*</artifact>
-                                    <excludes>
-                                        <exclude>META-INF/*.SF</exclude>
-                                        <exclude>META-INF/*.DSA</exclude>
-                                        <exclude>META-INF/*.RSA</exclude>
-                                    </excludes>
-                                </filter>
-                            </filters>
-                            <transformers>
-                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>ru.ech0p1ng.combiningrentreceipts.combiningrentreceiptsjavafx.Main</mainClass>
-                                </transformer>
-                                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
-                            </transformers>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
             <!-- Maven Compiler Plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <source>11</source>
-                    <target>11</target>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
                     <compilerArgs>
+<!--                        <arg>&#45;&#45;add-exports</arg>-->
+<!--                        <arg>java.base/sun.security.rsa=ALL-UNNAMED</arg>-->
+<!--                        <arg>&#45;&#45;add-exports</arg>-->
+<!--                        <arg>java.base/sun.security.x509=ALL-UNNAMED</arg>-->
                         <arg>--module-path</arg>
                         <arg>${javafx.sdk.path}</arg>
                         <arg>--add-modules</arg>
@@ -143,6 +121,7 @@
                     </compilerArgs>
                 </configuration>
             </plugin>
+
         </plugins>
     </build>
 </project>

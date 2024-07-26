@@ -1,4 +1,6 @@
-package ru.ech0p1ng.combiningRentReciepts;
+package ru.ech0p1ng.combiningrentreceipts;
+
+import ru.ech0p1ng.combiningrentreceipts.Receipt;
 
 import java.util.Arrays;
 import java.util.List;

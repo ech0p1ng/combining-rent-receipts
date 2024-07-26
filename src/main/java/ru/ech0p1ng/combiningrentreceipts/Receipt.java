@@ -1,8 +1,9 @@
-package ru.ech0p1ng.combiningRentReciepts;
+package ru.ech0p1ng.combiningrentreceipts;
 
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
+import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.rendering.ImageType;
 import org.apache.pdfbox.rendering.PDFRenderer;
@@ -14,7 +15,6 @@ import java.io.File;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
 
 @Data
 public class Receipt {
@@ -61,7 +61,7 @@ public class Receipt {
             }
             if (sourceFile.exists()) {
                 //loading pdf
-                PDDocument document = PDDocument.load(sourceFile);
+                PDDocument document = Loader.loadPDF(sourceFile);
                 PDFRenderer pdfRenderer = new PDFRenderer(document);
 
                 int numberOfPages = document.getNumberOfPages();
