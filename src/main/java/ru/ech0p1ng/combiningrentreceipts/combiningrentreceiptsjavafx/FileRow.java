@@ -4,10 +4,8 @@ import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 
 public class FileRow {
     private String filePath;
@@ -30,17 +28,21 @@ public class FileRow {
         var firstColumn = new ColumnConstraints();
         firstColumn.setMaxWidth(Double.MAX_VALUE);
         firstColumn.setFillWidth(true);
+        firstColumn.setMaxWidth(-1);
+        firstColumn.setHgrow(Priority.SOMETIMES);
 
-        fileGridPane.getColumnConstraints().add(firstColumn);
-        fileGridPane.getColumnConstraints().add(getStyledColumn());
-        fileGridPane.getColumnConstraints().add(getStyledColumn());
+
+        fileGridPane.getColumnConstraints().addAll(
+                firstColumn,
+                getStyledColumn(),
+                getStyledColumn());
         fileGridPane.getRowConstraints().add(getStyledRow());
 
         fileGridPane.add(filePathTextField, 0, 0);
         fileGridPane.add(openFileButton, 1, 0);
         fileGridPane.add(removeFileButton, 2, 0);
-        VBox.setMargin(fileGridPane, new Insets(5, 0, 0, 0));
 
+        VBox.setMargin(fileGridPane, new Insets(0, 0, 5, 0));
     }
 
     private static Button getStyledButton(String text) {
@@ -73,9 +75,8 @@ public class FileRow {
         int width = 75;
         columnConstraints.setHalignment(HPos.RIGHT);
         columnConstraints.setMinWidth(width);
-        columnConstraints.setPrefWidth(width);
         columnConstraints.setMaxWidth(width);
-        columnConstraints.setFillWidth(true);
+
         return columnConstraints;
     }
 
@@ -89,5 +90,13 @@ public class FileRow {
 
     public GridPane getFileGridPane() {
         return fileGridPane;
+    }
+
+    public Button getOpenFileButton() {
+        return openFileButton;
+    }
+
+    public Button getRemoveFileButton() {
+        return removeFileButton;
     }
 }

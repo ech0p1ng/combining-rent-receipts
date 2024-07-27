@@ -21,15 +21,7 @@ public class HelloApplication extends Application {
         return stage;
     }
 
-    public static List<File> addFiles() {
-        FileChooser fileChooser = new FileChooser();//Класс работы с диалогом выбора и сохранения
 
-        fileChooser.setTitle("Выбрать документы");//Заголовок диалога
-        FileChooser.ExtensionFilter extFilter =
-                new FileChooser.ExtensionFilter("PDF files (*.pdf)", "*.pdf"); //Расширение
-        fileChooser.getExtensionFilters().add(extFilter);
-        return fileChooser.showOpenMultipleDialog(HelloApplication.getStage()); //Указываем текущую сцену CodeNote.mainStage
-    }
 
     @Override
     public void start(Stage stage) throws IOException {
