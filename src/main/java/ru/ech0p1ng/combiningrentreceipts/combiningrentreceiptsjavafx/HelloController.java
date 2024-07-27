@@ -14,9 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HelloController {
-
-    List<File> files = new ArrayList<File>();
-
     @FXML
     private Button addFilesButton;
 
@@ -24,53 +21,91 @@ public class HelloController {
     private Button clearFilesListButton;
 
     @FXML
+    private Button mergePdfFilesToPngButton;
+
+    @FXML
     private VBox vBox;
+
+    List<File> pdfFiles = new ArrayList<>();
 
     @FXML
     void addFilesButtonClick(ActionEvent event) {
-        var tempFiles = addFilesViaExplorer();
+        List<File> tempFiles;
+        try {
+            tempFiles = new ArrayList<>(addFilesViaExplorer());
+        } catch (Exception e) { return; }
 
-        files.addAll(tempFiles);
+        StringBuilder cloneFilesPaths = new StringBuilder();
+        List<File> cloneFiles = new ArrayList<>();
 
         for (var file : tempFiles) {
-            FileRow fileRow = new FileRow(file.getAbsolutePath());
-
-            fileRow.getOpenFileButton()
-                    .onActionProperty()
-                    .set(openFileEvent -> {
-                        //Открытие файла в программе по-умолчанию
-                        if (Desktop.isDesktopSupported()) {
-                            Desktop desktop = Desktop.getDesktop();
-                            try {
-                                desktop.open(file);
-                            } catch (IOException e) {
-                                Alert alert = new Alert(Alert.AlertType.ERROR);
-                                alert.setTitle("Ошибка");
-                                alert.setHeaderText(e.getMessage());
-                                alert.setContentText(e.getStackTrace().toString());
-                            }
-                        } else {
-                            System.out.println("Desktop is not supported on this platform.");
-                        }
-            });
-            fileRow.getRemoveFileButton()
-                    .onActionProperty()
-                    .set(removeFileEvent -> {
-                        vBox.getChildren().remove(fileRow.getFileGridPane());
-
-                        files.remove(file);
-                    });
-
-            vBox.getChildren().add(fileRow.getFileGridPane());
+            if (pdfFiles.contains(file)) {
+                cloneFilesPaths.append(file.getAbsolutePath()).append(",\n");
+                cloneFiles.add(file);
+            }
         }
 
+        if (!cloneFiles.isEmpty()) {
+            tempFiles.removeAll(cloneFiles);
 
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+
+            alert.setTitle("Внимание!");
+            alert.setHeaderText("Повторяющиеся файлы");
+
+            alert.setContentText("Следующие файлы уже были ранее добавлены:\n" + cloneFilesPaths);
+            alert.showAndWait();
+        }
+
+        if (tempFiles != null) {
+            pdfFiles.addAll(tempFiles);
+
+            for (var file : tempFiles) {
+                FileRow fileRow = new FileRow(file.getAbsolutePath());
+
+                //Действие кнопки открытия файла
+                fileRow.getOpenFileButton()
+                        .onActionProperty()
+                        .set(openFileEvent -> {
+                            //Открытие файла в программе по-умолчанию
+                            if (Desktop.isDesktopSupported()) {
+                                Desktop desktop = Desktop.getDesktop();
+                                try {
+                                    desktop.open(file);
+                                } catch (IOException e) {
+                                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                                    alert.setTitle("Ошибка");
+                                    alert.setHeaderText(e.getMessage());
+                                    alert.setContentText(e.getStackTrace().toString());
+                                    alert.showAndWait();
+                                }
+                            } else {
+                                Alert alert = new Alert(Alert.AlertType.ERROR);
+                                alert.setTitle("Ошибка");
+                                alert.setHeaderText("Файловый менеджер");
+                                alert.setContentText("Невозможно открыть файловый менеджер");
+                                alert.showAndWait();
+                            }
+                        });
+
+                //Действие кнопки закрытия файла
+                fileRow.getRemoveFileButton()
+                        .onActionProperty()
+                        .set(removeFileEvent -> {
+                            vBox.getChildren().remove(fileRow.getFileGridPane());
+
+                            pdfFiles.remove(file);
+                        });
+
+                vBox.getChildren().add(fileRow.getFileGridPane());
+            }
+        }
     }
 
     @FXML
     void clearFilesListButtonClick(ActionEvent event) {
-        files.clear();
         vBox.getChildren().clear();
+        pdfFiles.clear();
     }
 
     public static List<File> addFilesViaExplorer() {
@@ -81,6 +116,11 @@ public class HelloController {
                 new FileChooser.ExtensionFilter("PDF files (*.pdf)", "*.pdf"); //Расширение
         fileChooser.getExtensionFilters().add(extFilter);
         return fileChooser.showOpenMultipleDialog(HelloApplication.getStage()); //Указываем текущую сцену CodeNote.mainStage
+    }
+
+    @FXML
+    void mergePdfFilesToPng(ActionEvent event) {
+
     }
 
 }
