@@ -3,12 +3,9 @@ package ru.ech0p1ng.combiningrentreceipts.combiningrentreceiptsjavafx;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 public class HelloApplication extends Application {
     private static Stage stage;
@@ -20,7 +17,6 @@ public class HelloApplication extends Application {
     public static Stage getStage() {
         return stage;
     }
-
 
 
     @Override

@@ -84,7 +84,6 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
 
     <build>
@@ -98,18 +97,11 @@
                     <source>${java.version}</source>
                     <target>${java.version}</target>
                     <compilerArgs>
-<!--                        <arg>&#45;&#45;add-exports</arg>-->
-<!--                        <arg>java.base/sun.security.rsa=ALL-UNNAMED</arg>-->
-<!--                        <arg>&#45;&#45;add-exports</arg>-->
-<!--                        <arg>java.base/sun.security.x509=ALL-UNNAMED</arg>-->
                         <arg>--module-path</arg>
                         <arg>${javafx.sdk.path}</arg>
-                        <arg>--add-modules</arg>
-                        <arg>javafx.controls,javafx.fxml</arg>
                     </compilerArgs>
                 </configuration>
             </plugin>
-
         </plugins>
     </build>
 </project>

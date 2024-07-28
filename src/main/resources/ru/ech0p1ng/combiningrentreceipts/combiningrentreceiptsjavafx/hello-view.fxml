@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -20,6 +21,7 @@
         <rowConstraints>
           <RowConstraints maxHeight="25.0" minHeight="25.0" prefHeight="25.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
@@ -62,11 +64,38 @@
                   <Insets left="-0.25" right="-0.25" />
                </padding>
             </ScrollPane>
-            <Button fx:id="mergePdfFilesToPngButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" text="Объединить" GridPane.rowIndex="2">
+            <Button fx:id="mergePdfFilesToPngButton" disable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#mergePdfFilesToPng" text="Объединить" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets top="5.0" />
                </GridPane.margin>
             </Button>
+            <GridPane GridPane.rowIndex="3">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="75.0" minWidth="75.0" prefWidth="75.0" />
+                  <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="75.0" minWidth="75.0" prefWidth="75.0" />
+                <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="75.0" minWidth="75.0" prefWidth="75.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="25.0" minHeight="25.0" prefHeight="25.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <TextField fx:id="resultFilePathTextField" editable="false" maxHeight="25.0" minHeight="25.0" prefHeight="25.0">
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                  </TextField>
+                  <Button fx:id="openImageButton" disable="true" maxHeight="25.0" maxWidth="70.0" minHeight="25.0" minWidth="70.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="70.0" text="Открыть" GridPane.columnIndex="1" />
+                  <Button fx:id="openImageFolderButton" disable="true" maxHeight="25.0" maxWidth="70.0" minHeight="25.0" minWidth="70.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="70.0" text="Папка" GridPane.columnIndex="2" />
+                  <Button fx:id="printImageButton" disable="true" maxHeight="25.0" maxWidth="70.0" minHeight="25.0" minWidth="70.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="70.0" text="Печать" GridPane.columnIndex="3" />
+               </children>
+               <opaqueInsets>
+                  <Insets top="5.0" />
+               </opaqueInsets>
+               <GridPane.margin>
+                  <Insets top="5.0" />
+               </GridPane.margin>
+            </GridPane>
          </children>
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

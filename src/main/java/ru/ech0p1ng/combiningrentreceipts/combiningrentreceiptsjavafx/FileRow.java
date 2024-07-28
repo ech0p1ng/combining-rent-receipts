@@ -5,22 +5,28 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
+
+import java.io.File;
 
 public class FileRow {
     private String filePath;
+    private String directoryPath;
     private TextField filePathTextField;
     private Button openFileButton;
+    private Button openDirectoryButton;
     private Button removeFileButton;
     private GridPane fileGridPane;
 
-    public FileRow(String filePath) {
-        this.filePath = filePath;
+    public FileRow(File file) {
+        this.filePath = file.getAbsolutePath();
+        this.directoryPath = file.getParent();
+
 
         filePathTextField = new TextField(filePath);
         filePathTextField.setEditable(false);
 
         openFileButton = getStyledButton("Открыть");
+        openDirectoryButton = getStyledButton("Папка");
         removeFileButton = getStyledButton("Удалить");
 
         fileGridPane = new GridPane();
@@ -35,12 +41,14 @@ public class FileRow {
         fileGridPane.getColumnConstraints().addAll(
                 firstColumn,
                 getStyledColumn(),
+                getStyledColumn(),
                 getStyledColumn());
         fileGridPane.getRowConstraints().add(getStyledRow());
 
         fileGridPane.add(filePathTextField, 0, 0);
         fileGridPane.add(openFileButton, 1, 0);
-        fileGridPane.add(removeFileButton, 2, 0);
+        fileGridPane.add(openDirectoryButton, 2, 0);
+        fileGridPane.add(removeFileButton, 3, 0);
 
         VBox.setMargin(fileGridPane, new Insets(0, 0, 5, 0));
     }
@@ -84,6 +92,10 @@ public class FileRow {
         return filePath;
     }
 
+    public String getDirectoryPath() {
+        return directoryPath;
+    }
+
     public TextField getFilePathTextField() {
         return filePathTextField;
     }
@@ -98,5 +110,9 @@ public class FileRow {
 
     public Button getRemoveFileButton() {
         return removeFileButton;
+    }
+
+    public Button getOpenDirectoryButton() {
+        return openDirectoryButton;
     }
 }
