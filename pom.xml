@@ -85,10 +85,11 @@
             <scope>test</scope>
         </dependency>
 
+<!--        Converting multiple pdf files to single png file -->
         <dependency>
             <groupId>ru.ech0p1ng</groupId>
             <artifactId>combiningRentReceipts</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.1-SNAPSHOT</version>
         </dependency>
 
     </dependencies>

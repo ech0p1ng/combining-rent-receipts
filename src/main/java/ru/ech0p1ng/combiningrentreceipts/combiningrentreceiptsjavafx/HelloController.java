@@ -2,25 +2,31 @@ package ru.ech0p1ng.combiningrentreceipts.combiningrentreceiptsjavafx;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.print.PrinterJob;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
+import ru.ech0p1ng.combiningRentReceipts.ImageOrientation;
 import ru.ech0p1ng.combiningRentReceipts.Receipt;
 
+import javax.print.*;
+import javax.print.attribute.HashPrintRequestAttributeSet;
+import javax.print.attribute.PrintRequestAttributeSet;
+import javax.print.attribute.standard.OrientationRequested;
 import java.awt.*;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class HelloController {
     List<File> pdfFiles = new ArrayList<>();
+    ImageOrientation orientation = ImageOrientation.HORIZONTAL;
+
     @FXML
     private Button addFilesButton;
     @FXML
@@ -116,32 +122,29 @@ public class HelloController {
     }
 
     private void printFile(File file) {
-        // Создаем ImageView для отображения изображения
-        ImageView imageView = new ImageView();
         try {
-            imageView.setImage(new Image(file.toURI().toString()));
-        } catch (Exception e) {
-            e.printStackTrace();
-            return;
-        }
+            DocFlavor flavor = DocFlavor.INPUT_STREAM.PNG;
+            PrintService service = PrintServiceLookup.lookupDefaultPrintService(); //выбор принтера по умолчанию
+            InputStream inputStream = new FileInputStream(file);
+            Doc doc = new SimpleDoc(inputStream, flavor, null);
 
-        // Создаем PrinterJob
-        PrinterJob printerJob = PrinterJob.createPrinterJob();
+            if (service != null) {
+                DocPrintJob job = service.createPrintJob();
+                PrintRequestAttributeSet attributeSet = new HashPrintRequestAttributeSet();
 
-        // Проверяем, доступен ли принтер
-        if (printerJob != null) {
-            // Устанавливаем содержимое WebView как контент для печати
-            printerJob.createPrinterJob().endJob();
+                //Разворот изображения если оно ориентировано горизонтально
+                if (orientation == ImageOrientation.HORIZONTAL) {
+                    attributeSet.add(OrientationRequested.LANDSCAPE);
+                } else if (orientation == ImageOrientation.VERTICAL) {
+                    attributeSet.add(OrientationRequested.PORTRAIT);
+                }
 
-//            if (job.endJob()) {
-            // Завершаем задачу печати
-//                printerJob.endJob();
-//                System.out.println("Файл успешно отправлен на печать.");
-//            } else {
-//                System.out.println("Ошибка при отправке файла на печать.");
-//            }
-        } else {
-            System.out.println("Принтер не доступен.");
+                job.print(doc, attributeSet);
+            } else {
+                throw new Exception("Принтер не найден!");
+            }
+        } catch (Exception ex) {
+            showMessageBox(Alert.AlertType.ERROR, ex.getMessage(), ex.getStackTrace().toString());
         }
     }
 
@@ -192,12 +195,14 @@ public class HelloController {
                     pdfFiles.remove(file);
                     if (pdfFiles.isEmpty()) {
                         mergePdfFilesToPngButton.setDisable(true);
+                        clearFilesListButton.setDisable(true);
                     }
                 });
 
                 vBox.getChildren().add(fileRow.getFileGridPane());
 
                 mergePdfFilesToPngButton.setDisable(false);
+                clearFilesListButton.setDisable(false);
             }
         }
     }
@@ -211,10 +216,15 @@ public class HelloController {
         openImageFolderButton.setDisable(true);
         printImageButton.setDisable(true);
         mergePdfFilesToPngButton.setDisable(true);
+        clearFilesListButton.setDisable(true);
     }
 
     @FXML
     void mergePdfFilesToPng(ActionEvent event) {
+        var buttonText = mergePdfFilesToPngButton.getText();
+        mergePdfFilesToPngButton.setText("Обработка...");
+        mergePdfFilesToPngButton.setDisable(true);
+
         var savedFile = saveFile();
 
         if (savedFile != null) {
@@ -224,7 +234,7 @@ public class HelloController {
             }
 
             Receipt receipt = new Receipt(pdfFilesPaths, savedFile.getAbsolutePath());
-            receipt.render();
+            receipt.render(orientation);
 
             resultFilePathTextField.setText(savedFile.getAbsolutePath());
 
@@ -236,5 +246,8 @@ public class HelloController {
             openImageFolderButton.setDisable(false);
             printImageButton.setDisable(false);
         }
+
+        mergePdfFilesToPngButton.setText(buttonText);
+        mergePdfFilesToPngButton.setDisable(false);
     }
 }
