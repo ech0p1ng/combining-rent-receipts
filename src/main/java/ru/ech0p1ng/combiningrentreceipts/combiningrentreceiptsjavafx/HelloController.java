@@ -7,8 +7,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
-import ru.ech0p1ng.combiningRentReceipts.ImageOrientation;
-import ru.ech0p1ng.combiningRentReceipts.Receipt;
 
 import javax.print.*;
 import javax.print.attribute.HashPrintRequestAttributeSet;
@@ -217,6 +215,7 @@ public class HelloController {
         printImageButton.setDisable(true);
         mergePdfFilesToPngButton.setDisable(true);
         clearFilesListButton.setDisable(true);
+        resultFilePathTextField.setText("");
     }
 
     @FXML
