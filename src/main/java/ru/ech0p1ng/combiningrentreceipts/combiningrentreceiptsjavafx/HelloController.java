@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
@@ -19,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class HelloController {
@@ -119,10 +121,34 @@ public class HelloController {
             openFileInDefaultProgram(directory);
     }
 
+    private PrintService selectPrinter() {
+        PrintService[] services = PrintServiceLookup.lookupPrintServices(null, null);
+        String[] servicesNames = Arrays.stream(services)
+                .map(PrintService::getName)
+                .toArray(String[]::new);
+        ChoiceDialog<String> dialog = new ChoiceDialog<>(
+                PrintServiceLookup.lookupDefaultPrintService().getName(),
+                servicesNames
+        );
+        dialog.setTitle("Выбор принтера");
+        dialog.setHeaderText("Выберите принтер");
+        dialog.setContentText("Доступные принтеры:");
+
+        var result = dialog.showAndWait().orElse(null);
+        if (result != null) {
+            return Arrays.stream(services)
+                    .filter(p -> p.getName().equals(result))
+                    .findFirst()
+                    .orElse(null);
+        }
+        return null;
+    }
+
     private void printFile(File file) {
         try {
             DocFlavor flavor = DocFlavor.INPUT_STREAM.PNG;
-            PrintService service = PrintServiceLookup.lookupDefaultPrintService(); //выбор принтера по умолчанию
+            PrintService service = selectPrinter();
+//            PrintService service = PrintServiceLookup.lookupDefaultPrintService(); //выбор принтера по умолчанию
             InputStream inputStream = new FileInputStream(file);
             Doc doc = new SimpleDoc(inputStream, flavor, null);
 

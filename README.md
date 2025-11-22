@@ -1,12 +1,19 @@
-Запуск с отдельными компонентами JavaFX
-```java  --module-path "target\javafx-sdk-21.0.1\lib" --add-modules javafx.controls,javafx.fxml -jar target/combining-rent-receipts-javafx-1.0-SNAPSHOT.jar```
+Р—Р°РїСѓСЃРє СЃ РѕС‚РґРµР»СЊРЅС‹РјРё РєРѕРјРїРѕРЅРµРЅС‚Р°РјРё JavaFX
+```cmd
+java  --module-path "target\javafx-sdk-21.0.1\lib" --add-modules javafx.controls,javafx.fxml -jar target/combining-rent-receipts-javafx-1.0-SNAPSHOT.jar
+```
 
-Просто запуск jar
-```java -jar target/combining-rent-receipts-javafx-1.0-SNAPSHOT.jar```
+Р—Р°РїСѓСЃРє jar
+```cmd
+java -jar target/combining-rent-receipts-javafx-1.0-SNAPSHOT.jar
+```
 
-Сборка проекта с очисткой папки
-```mvn clean package```
-Сборка проекта
-```mvn package```
+РЎР±РѕСЂРєР° РїСЂРѕРµРєС‚Р° РІ Fat-JAR
+```cmd
+mvn package
+```
 
-```mvn install:install-file -Dfile="D:\PROGRAMMING\MY PROJECTS\Java\combining-rent-receipts-javafx\dependencies\combining-rent-receipts.jar" -DgroupId=ru.ech0p1ng.combiningRentReciepts -DartifactId=combining-rent-receipts -Dversion=1.0-SNAPSHOT -Dpackaging=jar```
+РЎР±РѕСЂРєР° РїСЂРѕРµРєС‚Р° РІ Fat-JAR СЃ РѕС‡РёСЃС‚РєРѕР№ РїР°РїРєРё
+```cmd
+mvn clean package
+```
